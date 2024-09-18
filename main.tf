@@ -44,33 +44,19 @@ resource "aws_instance" "web" {
   instance_type = "t3.medium"
   subnet_id     = var.subnet_a_id
   security_groups = [var.security_group_instance_id]
-  key_name       = var.key_name  # Add this line
+  key_name       = var.key_name
   tags = {
     Name = "web-instance"
   }
 }
 
-# EBS Volume
-resource "aws_ebs_volume" "existing_volume" {
-  availability_zone = "us-east-1"  # Ensure this matches the instance's AZ
-  size              = 8  # Size in GB
-  type              = "gp3"  # General Purpose SSD
-}
-
-# Volume Attachment
-#resource "aws_volume_attachment" "existing_volume_attachment" {
- # device_name = "/dev/xvda"
-  #volume_id   = "vol-05baf0527fb207ac7"  # Replace with your existing EBS volume                                                                              ID
-  #instance_id = aws_instance.web.id
-#}
-
 # Route Table Associations
 resource "aws_route_table_association" "rta_a" {
-  subnet_id      = var.subnet_a_id  # Use the existing subnet ID
-  route_table_id = var.route_table_id  # Use the existing Route Table ID
+  subnet_id      = var.subnet_a_id
+  route_table_id = var.route_table_id
 }
 
 resource "aws_route_table_association" "rta_b" {
-  subnet_id      = var.subnet_b_id  # Use the existing subnet ID
-  route_table_id = var.route_table_id  # Use the existing Route Table ID
+  subnet_id      = var.subnet_b_id
+  route_table_id = var.route_table_id
 }
